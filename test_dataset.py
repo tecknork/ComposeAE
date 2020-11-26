@@ -6,7 +6,7 @@ if __name__ == '__main__':
     trainset = datasets.MITStates(
         path='data/mitstates',
         split='test',
-        data_type='GCZSL',
+        data_type='CZSL',
         transform=torchvision.transforms.Compose([
             torchvision.transforms.Resize(224),
             torchvision.transforms.CenterCrop(224),
