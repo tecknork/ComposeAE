@@ -375,7 +375,7 @@ class MITStates(BaseDataset):
             self.caption2imgids[cap].append(i)
             if adj not in self.noun2adjs[noun]:
                 self.noun2adjs[noun].append(adj)
-        for noun, adjs in self.noun2adjs.items():
+        for noun, adjs in self.noun2adjs.items(): # assertion error as data-split doesnt observe this condition
             assert len(adjs) >= 2
 
     def caption_index_sample_(self, idx):
