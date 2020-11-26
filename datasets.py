@@ -257,9 +257,9 @@ class MITStates(BaseDataset):
         self.split = split
 
         if split == 'train':
-            self.pair_file = self.path + '/compositional-split/' + 'train_pairs.txt'
+            self.pair_file = self.path + '/czsl-compositional-split/' + 'train_pairs.txt'
         else:
-            self.pair_file = self.path + '/compositional-split/' + 'test_pairs.txt'
+            self.pair_file = self.path + '/czsl-compositional-split/' + 'test_pairs.txt'
 
         def parse_pairs(pair_file):
             with open(pair_file, 'r') as f:

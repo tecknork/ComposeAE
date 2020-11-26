@@ -1,5 +1,8 @@
 data
-!data/mitstates/compositional-split/test_pairs.txt
-!data/mitstates/compositional-split/train_pairs.txt
+!data/mitstates/czsl-compositional-split/test_pairs.txt
+!data/mitstates/czsl-compositional-split/train_pairs.txt
+!data/mitstates/gczsl-compositional-split/test_pairs.txt
+!data/mitstates/gczsl-compositional-split/train_pairs.txt
+!data/mitstates/gczsl-compositional-split/val_pairs.txt
 .idea
 __pycache__/
