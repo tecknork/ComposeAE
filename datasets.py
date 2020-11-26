@@ -250,16 +250,21 @@ class Fashion200k(BaseDataset):
 class MITStates(BaseDataset):
     """MITStates dataset."""
 
-    def __init__(self, path, split='train', transform=None):
+    def __init__(self, path, split='train',data_type='CZSL', transform=None):
         super(MITStates, self).__init__()
         self.path = path
         self.transform = transform
         self.split = split
 
-        if split == 'train':
-            self.pair_file = self.path + '/czsl-compositional-split/' + 'train_pairs.txt'
+        if data_type == 'CZSL':
+            self.data_type = '/czsl-compositional-split/'
         else:
-            self.pair_file = self.path + '/czsl-compositional-split/' + 'test_pairs.txt'
+            self.data_type = '/gczsl-compositional-split/'
+
+        if split == 'train':
+            self.pair_file = self.path + self.data_type + 'train_pairs.txt'
+        else:
+            self.pair_file = self.path + self.data_type + 'test_pairs.txt'
 
         def parse_pairs(pair_file):
             with open(pair_file, 'r') as f:
@@ -310,7 +315,7 @@ class MITStates(BaseDataset):
                     'noun': noun
                 }]
 
-        # f = open("composeAE_symnet_train.txt", "w")
+        # f = open("composeAE_symnet_gczsl_test.txt", "w")
         # for i in self.imgs:
         #     f.write('%s,%s,%s\n'%(i['file_path'],i['adj'],i['noun']))
         # f.close()

@@ -60,6 +60,8 @@ def parse_opt():
     parser.add_argument('--loader_num_workers', type=int, default=4)
     parser.add_argument('--log_dir', type=str, default='../logs/')
     parser.add_argument('--test_only', type=bool, default=False)
+    parser.add_argument("--data_type", type=str, required=True,
+                        choices=['CZSL', 'GCZSL'])
     parser.add_argument('--model_checkpoint', type=str, default='')
 
     args = parser.parse_args()
@@ -94,6 +96,7 @@ def load_dataset(opt):
         trainset = datasets.MITStates(
             path=opt.dataset_path,
             split='train',
+            data_type=opt.data_type,
             transform=torchvision.transforms.Compose([
                 torchvision.transforms.Resize(224),
                 torchvision.transforms.CenterCrop(224),
@@ -104,6 +107,7 @@ def load_dataset(opt):
         testset = datasets.MITStates(
             path=opt.dataset_path,
             split='test',
+            data_type=opt.data_type,
             transform=torchvision.transforms.Compose([
                 torchvision.transforms.Resize(224),
                 torchvision.transforms.CenterCrop(224),

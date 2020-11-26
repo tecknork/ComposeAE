@@ -5,7 +5,8 @@ if __name__ == '__main__':
     print("hello World")
     trainset = datasets.MITStates(
         path='data/mitstates',
-        split='train',
+        split='test',
+        data_type='GCZSL',
         transform=torchvision.transforms.Compose([
             torchvision.transforms.Resize(224),
             torchvision.transforms.CenterCrop(224),
