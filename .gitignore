@@ -1,0 +1,5 @@
+data
+!data/mitstates/compositional-split/test_pairs.txt
+!data/mitstates/compositional-split/train_pairs.txt
+.idea
+__pycache__/

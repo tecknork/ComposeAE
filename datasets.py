@@ -17,7 +17,7 @@
 """Provides data for training and testing."""
 import numpy as np
 import PIL
-import skimage
+import json
 import torch
 import json
 import torch.utils.data
@@ -256,29 +256,50 @@ class MITStates(BaseDataset):
         self.transform = transform
         self.split = split
 
+        if split == 'train':
+            self.pair_file = self.path + '/compositional-split/' + 'train_pairs.txt'
+        else:
+            self.pair_file = self.path + '/compositional-split/' + 'test_pairs.txt'
+
+        def parse_pairs(pair_file):
+            with open(pair_file, 'r') as f:
+                pairs = f.read().strip().split('\n')
+                pairs = [t.split() for t in pairs]
+                pairs = list(map(tuple, pairs))
+            attrs, objs = zip(*pairs)
+            return attrs, objs, pairs
+
+        _,_, pairs = parse_pairs(self.pair_file)
+
+
         self.imgs = []
-        test_nouns = [
-            u'armor', u'bracelet', u'bush', u'camera', u'candy', u'castle',
-            u'ceramic', u'cheese', u'clock', u'clothes', u'coffee', u'fan', u'fig',
-            u'fish', u'foam', u'forest', u'fruit', u'furniture', u'garden', u'gate',
-            u'glass', u'horse', u'island', u'laptop', u'lead', u'lightning',
-            u'mirror', u'orange', u'paint', u'persimmon', u'plastic', u'plate',
-            u'potato', u'road', u'rubber', u'sand', u'shell', u'sky', u'smoke',
-            u'steel', u'stream', u'table', u'tea', u'tomato', u'vacuum', u'wax',
-            u'wheel', u'window', u'wool'
-        ]
+        # test_nouns = [
+        #     u'armor', u'bracelet', u'bush', u'camera', u'candy', u'castle',
+        #     u'ceramic', u'cheese', u'clock', u'clothes', u'coffee', u'fan', u'fig',
+        #     u'fish', u'foam', u'forest', u'fruit', u'furniture', u'garden', u'gate',
+        #     u'glass', u'horse', u'island', u'laptop', u'lead', u'lightning',
+        #     u'mirror', u'orange', u'paint', u'persimmon', u'plastic', u'plate',
+        #     u'potato', u'road', u'rubber', u'sand', u'shell', u'sky', u'smoke',
+        #     u'steel', u'stream', u'table', u'tea', u'tomato', u'vacuum', u'wax',
+        #     u'wheel', u'window', u'wool'
+        # ]
 
         from os import listdir
         for f in listdir(path + '/images'):
             if ' ' not in f:
                 continue
             adj, noun = f.split()
-            if adj == 'adj':
+            if adj=='NA' or (adj, noun) not in pairs:
+                # ignore instances with unlabeled attributes
+                # ignore instances that are not in current split
                 continue
-            if split == 'train' and noun in test_nouns:
-                continue
-            if split == 'test' and noun not in test_nouns:
-                continue
+            # if adj == 'adj':
+            #     continue
+            # if split == 'train' and noun in test_nouns:
+            #     continue
+            # if split == 'test' and noun not in test_nouns:
+            #     continue
+
 
             for file_path in listdir(path + '/images/' + f):
                 assert (file_path.endswith('jpg'))
@@ -289,6 +310,10 @@ class MITStates(BaseDataset):
                     'noun': noun
                 }]
 
+        f = open("composeAE_symnet_train.txt", "w")
+        for i in self.imgs:
+            f.write('%s,%s,%s\n'%(i['file_path'],i['adj'],i['noun']))
+        f.close()
         self.caption_index_init_()
         if split == 'test':
             self.generate_test_queries_()
