@@ -1,5 +1,9 @@
 # Compositional Learning of Image-Text Query for Image Retrieval 
 ## Code is available.
+## Updated Readme for Data loading 
+
+- add images to the folder inside `data/mitstates` such that it becomes 
+`data/mitstates/images/`
 
 ## Introduction
 

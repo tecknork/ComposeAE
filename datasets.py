@@ -310,10 +310,10 @@ class MITStates(BaseDataset):
                     'noun': noun
                 }]
 
-        f = open("composeAE_symnet_train.txt", "w")
-        for i in self.imgs:
-            f.write('%s,%s,%s\n'%(i['file_path'],i['adj'],i['noun']))
-        f.close()
+        # f = open("composeAE_symnet_train.txt", "w")
+        # for i in self.imgs:
+        #     f.write('%s,%s,%s\n'%(i['file_path'],i['adj'],i['noun']))
+        # f.close()
         self.caption_index_init_()
         if split == 'test':
             self.generate_test_queries_()
